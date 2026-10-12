@@ -9,7 +9,7 @@ Contents
    :maxdepth: 2
 
    LICENSE
-   intro
+   index
    gettingstarted
    logreg
    mlp
@@ -19,6 +19,11 @@ Contents
    rbm
    DBN
    hmc
+   rnnslu
+   lstm
    rnnrbm
    utilities
    references
+   fcn_2D_segm
+   cnn_1D_segm
+   unet
