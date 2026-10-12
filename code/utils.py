@@ -6,7 +6,6 @@ For example ``tile_raster_images`` helps in generating a easy to grasp
 image from a set of samples or weights.
 """
 
-
 import numpy
 
 
@@ -47,7 +46,7 @@ def tile_raster_images(X, img_shape, tile_shape, tile_spacing=(0, 0),
 
 
     :returns: array suitable for viewing as an image.
-    (See:`PIL.Image.fromarray`.)
+    (See:`Image.fromarray`.)
     :rtype: a 2-d array with same dtype as X.
 
     """
@@ -64,8 +63,10 @@ def tile_raster_images(X, img_shape, tile_shape, tile_spacing=(0, 0),
     #                tile_spacing[0]
     # out_shape[1] = (img_shape[1]+tile_spacing[1])*tile_shape[1] -
     #                tile_spacing[1]
-    out_shape = [(ishp + tsp) * tshp - tsp for ishp, tshp, tsp
-                        in zip(img_shape, tile_shape, tile_spacing)]
+    out_shape = [
+        (ishp + tsp) * tshp - tsp
+        for ishp, tshp, tsp in zip(img_shape, tile_shape, tile_spacing)
+    ]
 
     if isinstance(X, tuple):
         assert len(X) == 4
@@ -83,15 +84,17 @@ def tile_raster_images(X, img_shape, tile_shape, tile_spacing=(0, 0),
         else:
             channel_defaults = [0., 0., 0., 1.]
 
-        for i in xrange(4):
+        for i in range(4):
             if X[i] is None:
                 # if channel is None, fill it with zeros of the correct
                 # dtype
                 dt = out_array.dtype
                 if output_pixel_vals:
                     dt = 'uint8'
-                out_array[:, :, i] = numpy.zeros(out_shape,
-                        dtype=dt) + channel_defaults[i]
+                out_array[:, :, i] = numpy.zeros(
+                    out_shape,
+                    dtype=dt
+                ) + channel_defaults[i]
             else:
                 # use a recurrent call to compute the channel and store it
                 # in the output
@@ -111,8 +114,8 @@ def tile_raster_images(X, img_shape, tile_shape, tile_spacing=(0, 0),
             dt = 'uint8'
         out_array = numpy.zeros(out_shape, dtype=dt)
 
-        for tile_row in xrange(tile_shape[0]):
-            for tile_col in xrange(tile_shape[1]):
+        for tile_row in range(tile_shape[0]):
+            for tile_col in range(tile_shape[1]):
                 if tile_row * tile_shape[1] + tile_col < X.shape[0]:
                     this_x = X[tile_row * tile_shape[1] + tile_col]
                     if scale_rows_to_unit_interval:
@@ -131,5 +134,5 @@ def tile_raster_images(X, img_shape, tile_shape, tile_spacing=(0, 0),
                     out_array[
                         tile_row * (H + Hs): tile_row * (H + Hs) + H,
                         tile_col * (W + Ws): tile_col * (W + Ws) + W
-                        ] = this_img * c
+                    ] = this_img * c
         return out_array
